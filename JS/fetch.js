@@ -5,8 +5,33 @@
 //         .then(data => console.log(data));
 // }
 let data
+let projects
 
-function retrieve(organization, project, ids) {
+function retrieveProjects(organization) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", AzureDevOPs_SWBC_PAT_64);
+    myHeaders.append("Cookie", "VstsSession=%7B%22PersistentSessionId%22%3A%220ebcec05-2805-485d-b311-b5c5bf5bc8d5%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch("https://dev.azure.com/" + organization + "/_apis/projects?api-version=6.0", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            projects = result
+            for (let i = 0; i < result.value.length; i++)
+            {
+                document.getElementById("projectSelect").innerHTML += "<option>" + result.value[i].name + "</option>"
+            }
+        })
+.catch(error => console.log('error', error));
+}
+
+function retrieveWorkItems(organization, project, ids) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", AzureDevOPs_PAT_64);
     myHeaders.append("Cookie", "VstsSession=%7B%22PersistentSessionId%22%3A%220ebcec05-2805-485d-b311-b5c5bf5bc8d5%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D");
@@ -32,4 +57,5 @@ function retrieve(organization, project, ids) {
         .catch(error => console.log('error', error));
 }
 
-retrieve("edwardmccormick", encodeURI("Practice Makes Permanent"), "1,2,3,4,5")
+retrieveWorkItems("edwardmccormick", encodeURI("Practice Makes Permanent"), "1,2,3,4,5")
+retrieveProjects("SWBC-FigWebDev")
