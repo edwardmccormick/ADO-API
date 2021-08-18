@@ -4,6 +4,7 @@
 //         .then(response => response.json())
 //         .then(data => console.log(data));
 // }
+let data
 
 function retrieve(organization, project, ids) {
     var myHeaders = new Headers();
@@ -17,8 +18,17 @@ function retrieve(organization, project, ids) {
     };
 
     fetch("https://dev.azure.com/" + organization + "/" + project + "/_apis/wit/workitems?ids=" + ids + "&api-version=6.1-preview.3", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            data = result
+            editDiv = document.getElementById("edit").innerText += 'There are: ' + result["count"] + ' results '
+            for (let i = 0; i < result["value"].length; i++) {
+                // if (i % 2 - 1 == 0) {document.getElementById("edit").innerHTML += "<style="background-color : lightblue;">"}
+                document.getElementById("edit").innerHTML += "<br><a href='https://dev.azure.com/" + organization + "/"+ project +"/_workitems/edit/"+ result['value'][i]['id'] +"'>" + result['value'][i]['fields']['System.Title'] + "</a> - " + result.value[i].fields['System.Description'] + ". Created by: <a href='"+ result.value[0].fields["System.CreatedBy"].url +"'>" + result.value[i].fields["System.CreatedBy"].displayName + "</a>"
+
+            }
+        })
         .catch(error => console.log('error', error));
 }
 
