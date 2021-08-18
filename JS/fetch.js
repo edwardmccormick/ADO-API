@@ -57,6 +57,5 @@ function retrieveWorkItems(organization, project, ids) {
         .catch(error => console.log('error', error));
 }
 
-
 retrieveWorkItems("SWBC-FigWebDev", encodeURI("RM.Test"), "225399")
 retrieveProjects("SWBC-FigWebDev")
