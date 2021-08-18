@@ -33,7 +33,7 @@ function retrieveProjects(organization) {
 
 function retrieveWorkItems(organization, project, ids) {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", AzureDevOPs_PAT_64);
+    myHeaders.append("Authorization", AzureDevOPs_SWBC_PAT_64);
     myHeaders.append("Cookie", "VstsSession=%7B%22PersistentSessionId%22%3A%220ebcec05-2805-485d-b311-b5c5bf5bc8d5%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D");
 
     var requestOptions = {
@@ -57,5 +57,6 @@ function retrieveWorkItems(organization, project, ids) {
         .catch(error => console.log('error', error));
 }
 
-retrieveWorkItems("edwardmccormick", encodeURI("Practice Makes Permanent"), "1,2,3,4,5")
+
+retrieveWorkItems("SWBC-FigWebDev", encodeURI("RM.Test"), "225399")
 retrieveProjects("SWBC-FigWebDev")
